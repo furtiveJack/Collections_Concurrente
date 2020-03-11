@@ -1,0 +1,6 @@
+Exercice 1
+
+1) Un problème de publication survient lorsqu'un thread accède à un champs d'un objet sans que celui-ci n'ait fini
+d'etre initialisé
+
+2)
