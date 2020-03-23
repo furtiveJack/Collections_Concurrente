@@ -3,4 +3,27 @@ Exercice 1
 1) Un problème de publication survient lorsqu'un thread accède à un champs d'un objet sans que celui-ci n'ait fini
 d'etre initialisé
 
-2)
+2) Le champs value n'est pas final, ce qui veut dire que l'on a pas la garantie qu'il a été initialisé si un thread
+    fait appel à getValue()
+
+    public static void main(String[] args) {
+        var foo = new Foo();
+        var thread = new Thread( () -> {
+            System.out.println(foo.getValue());
+        });
+
+3) Oui, il y a un problème de publication, le champs name n'est pas final, ce qui expose au meme problème que montré
+    précédemment. Il faut donc le rendre final
+
+4) Pas de problème
+
+5) Le fait de démarrer un thread dans le constructeur entraine un gros problème de publication, étant donné
+que l'on publie le this --> A ne jamais faire.
+Le mot clé final garantit que tous les champs seront initialisés à la sortie du constructeur.
+Ici la VM peut réarranger l'ordre des instructions dans le constructeur et donc this.name et this.age peuvent
+ne pas encore etre initalisés.
+On peut éviter le problème en démarrant le thread hors du constructeur.
+
+6) Pas de problème de publication car dans le thread, on accède aux paramètres du constructeur et non au champs de
+l'objet. Mais on démarre quand même un thread dans le constructeur ce qui est passible de peine de mort.
+
