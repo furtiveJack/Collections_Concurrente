@@ -5,6 +5,7 @@ import java.lang.invoke.VarHandle;
 
 public class SpinLock {
     private static final VarHandle HANDLE;
+    private volatile boolean token;
 
     static {
         var lookup = MethodHandles.lookup();
@@ -15,10 +16,8 @@ public class SpinLock {
         }
     }
 
-    private volatile boolean token;
-
     public void lock() {
-        while (!HANDLE.compareAndSet(this, false, true)) {
+        while (! HANDLE.compareAndSet(this, false, true)) {
             Thread.onSpinWait();
         }
     }
@@ -66,5 +65,10 @@ public class SpinLock {
  * <p>
  * 2) Si la classe est thread-safe, on s'attend à ce que le counter arrive à 2_000_000
  * Etant donné que les méthodes lock et unlock ne sont pas implémentées, la code du Runnable n'est pas threadsafe
-
+ *
+ * 3) Si on arrive pas à acquérir le lock, on doit attendre jusqu'à ce qu'il soit disponible.
+ *  Cela revientdrait à faire de l'attente active, et c'est de l'occupation inutile des ressources.
+ *  Thread.onSpinWait permet d'indiquer au run-time que le thread courant est en train d'attendre dans une loop, ce qui
+ *  permet, dans les environnements adaptés d'améliorer les performances causées par cette attente.
+ *
  */

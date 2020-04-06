@@ -18,43 +18,31 @@ public class ReentrantSpinLock {
     }
 
     public void lock() {
-        // idée de l'algo
-        // on récupère la thread courante
-        var current = Thread.currentThread();
-        // si lock est == à 0, on utilise un CAS pour le mettre à 1 et
-        //   on sauvegarde la thread qui possède le lock dans ownerThread.
-        // sinon on regarde si la thread courante n'est pas ownerThread,
-        //   si oui alors on incrémente lock.
-        //
-        // et il faut une boucle pour retenter le CAS après avoir appelé onSpinWait()
+        var current = Thread.currentThread();                  // on recup le thread courant
         while (true) {
-            if (HANDLE.compareAndSet(this, 0, 1)) {
-                ownerThread = current;
+            if (HANDLE.compareAndSet(this, 0, 1)) {     // si lock == 0, on utilise un CAS pour le mettre à 1
+                ownerThread = current;                         // on sauvegarde la thread qui possède le lock dans ownerThread.
                 return;
             }
-            if (ownerThread == current) {
-                lock++;
+            if (ownerThread == current) {                      // sinon on regarde si la thread courante est ownerThread,
+                lock++;                                        // si oui alors on incrémente lock.
                 return;
             }
-            Thread.onSpinWait();
+            Thread.onSpinWait();                               //  et il faut une boucle pour retenter le CAS après avoir appelé onSpinWait()
         }
     }
 
     public void unlock() {
-        // idée de l'algo
-        // si la thread courante est != ownerThread, on pète une exception
-        // si lock == 1, on remet ownerThread à null
-        // on décrémente lock
-        if (ownerThread != Thread.currentThread()) {
+        if (ownerThread != Thread.currentThread()) {        // si la thread courante est != ownerThread, on pète une exception
             throw new IllegalStateException();
         }
         var lock = this.lock; //volatile read
-        if (lock == 1) {
-            ownerThread = null;
+        if (lock == 1) {                                    // si lock == 1,
+            ownerThread = null;                             // on remet ownerThread à null
             this.lock = 0; //volatile write
             return;
         }
-        this.lock = lock - 1; //volatile write
+        this.lock = lock - 1; //volatile write              // on décrémente lock
     }
 
     public static void main(String[] args) throws InterruptedException {

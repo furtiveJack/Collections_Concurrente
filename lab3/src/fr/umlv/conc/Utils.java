@@ -42,7 +42,7 @@ public class Utils {
 //                home = (Path) HANDLE.getAcquire();
 //                if (home == null) {
 //                    HANDLE.setRelease(Path.of(System.getenv("HOME")));
-//                    return HOME;
+//                    return home;
 //                }
 //            }
 //        }
@@ -78,6 +78,6 @@ public class Utils {
    4) getAcquire et setRelease coûtent un peu moins cher que des lectures/écritures volatiles
 
    5) L'initialisation de la classe est instantanée (car pas de champs/blocs static).
-    L'initialisation de la classe interne LazyHolder ne sera faite par la JVM seulement au moment où celle-ci doit
+    L'initialisation de la classe interne LazyHolder ne sera faite par la JVM qu'au moment où celle-ci doit
     être appelée (donc au premier appel de getHome() seulement)
  */
