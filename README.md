@@ -1,4 +1,4 @@
-# __Structures et Algorithmes Concurrents__ Repository
+# '__Structures et Algorithmes Concurrents__' Repository
 
 _Tanguy TRAINA_
 
