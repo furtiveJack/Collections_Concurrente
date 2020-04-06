@@ -61,7 +61,7 @@ public class SpinLock {
 /**
  * Exercice 1
  * <p>
- * 1) Réentrant signifie que quand l'on est dans une fonction, personne d'autre n'a le droit d'être également (pas un
+ * 1) Réentrant signifie que quand l'on est dans une fonction, personne d'autre n'a le droit d'y être également (pas un
  * autre thread ni le même thread)
  * <p>
  * 2) Si la classe est thread-safe, on s'attend à ce que le counter arrive à 2_000_000
