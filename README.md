@@ -1,6 +1,6 @@
 # __Structures et Algorithmes Concurrents__ Repository
 
-_Tanguy TRAINA
+_Tanguy TRAINA_
 
-INFO2 - Log_
+_INFO2 - Log_
 
