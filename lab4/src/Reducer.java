@@ -53,7 +53,7 @@ public class Reducer {
 //            max = Math.max(max, value);
 //        }
 //        return max;
-        return parallelReduceWithStream(array, Integer.MIN_VALUE, Math::max);
+        return reduceWithStream(array, Integer.MIN_VALUE, Math::max);
     }
 
     public static int reduce(int[] array, int initial, IntBinaryOperator op) {
@@ -113,7 +113,7 @@ Question 3:
     lorsque l'on fait un join() dans une RecursiveTask, on enlève la tache qui appel le join() du ForkJoinPool
      et on la remet lorsque la tache qui fait le calcul sur lequel on attend a fini son calcul, comme cela pas de deadlock
 
-    ForkjoinPool : fait meme chose qu'un ThreadpooExecutor sauf qu'il est capable de s'arreter et attendre la fin
+    ForkjoinPool : fait meme chose qu'un ThreadpoolExecutor sauf qu'il est capable de s'arreter et attendre la fin
     de l'exécution d'une autre tache (join)
 
     2/ On utilise la méthode ForkJoinPool.commonPool()
