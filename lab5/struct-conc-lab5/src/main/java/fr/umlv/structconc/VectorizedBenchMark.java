@@ -2,6 +2,7 @@ package fr.umlv.structconc;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -19,10 +20,30 @@ import org.openjdk.jmh.annotations.Warmup;
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @State(Scope.Benchmark)
 public class VectorizedBenchMark {
-  private int[] array = new Random(0).ints(1_000_000, 0,1_000_000).toArray();
+    private int[] array = new Random(0).ints(1_000_000, 0, 1_000_000).toArray();
 
-  @Benchmark
-  public int sum_loop() {
-    return Vectorized.sumLoop(array);
-  }
+    @Benchmark
+    public int sum_loop() {
+        return Vectorized.sumLoop(array);
+    }
+
+    @Benchmark
+    public int sumReduceLane_loop() {
+        return Vectorized.sumReduceLane(array);
+    }
+
+    @Benchmark
+    public int sumLanewise_loop() {
+        return Vectorized.sumLanewise(array);
+    }
+
+    @Benchmark
+    public int differenceLanewise_loop() {
+        return Vectorized.differenceLanewise(array);
+    }
+
+    @Benchmark
+    public int[] minmaxLanewise_loop() {
+        return Vectorized.minmax(array);
+    }
 }
